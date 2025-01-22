@@ -13,6 +13,31 @@ set(CMAKE_CXX_FLAGS "-fPIC")
 set(CMAKE_C_FLAGS "-fopenmp")
 set(LINKFLAGS "-fopenmp")
 
+
+#set(CMAKE_C_COMPILER "/opt/homebrew/opt/llvm/bin/clang")
+#set(CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++")
+set(OPENMP_LIBRARIES "/opt/homebrew/opt/libomp/lib")
+set(OPENMP_INCLUDES "/opt/homebrew/opt/libomp/include")
+
+OPTION (USE_OpenMP "Use OpenMP to enable <omp.h>" ON)
+
+# Find OpenMP
+if(APPLE AND USE_OpenMP)
+        set(OpenMP_C "${CMAKE_C_COMPILER}")
+        set(OpenMP_C_FLAGS " -Wno-unused-command-line-argument")
+        set(OpenMP_C_LIB_NAMES "libomp" "libgomp" "libiomp5")
+        set(OpenMP_libomp_LIBRARY ${OpenMP_C_LIB_NAMES})
+        set(OpenMP_libgomp_LIBRARY ${OpenMP_C_LIB_NAMES})
+        set(OpenMP_libiomp5_LIBRARY ${OpenMP_C_LIB_NAMES})
+    
+      set(OpenMP_CXX "${CMAKE_CXX_COMPILER}")
+      set(OpenMP_CXX_FLAGS " -Wno-unused-command-line-argument")
+      set(OpenMP_CXX_LIB_NAMES "libomp" "libgomp" "libiomp5")
+      set(OpenMP_libomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+      set(OpenMP_libgomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+      set(OpenMP_libiomp5_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+endif()
+
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
 elseif (CMAKE_HOST_WIN64)
@@ -83,6 +108,7 @@ include_directories(ext/pybind11/include)
 add_subdirectory(ext/pybind11)
 
 include_directories(include)
+include_directories("${OPENMP_INCLUDES}")
 
 AUX_SOURCE_DIRECTORY(src lib_src)
 AUX_SOURCE_DIRECTORY(src/compairer lib_src)
@@ -106,7 +132,7 @@ add_library(TexasSolver
         ${lib_src}
         )
 
-target_link_libraries(TexasSolver fmt)
+target_link_libraries(TexasSolver fmt /opt/homebrew/opt/libomp/lib/libomp.a)
 #target_link_libraries(TexasSolver ${Boost_LIBRARIES})
 
 add_executable(test test/test.cpp)
