@@ -1,42 +1,48 @@
 cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_C_COMPILER "/opt/homebrew/opt/llvm@17/bin/clang")
+set(CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm@17/bin/clang++")
+
 project(bindSolver)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra  -fopenmp")
-set(CMAKE_CXX_FLAGS "-D_hypot=hypot")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_hypot=hypot")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
-set(CMAKE_CXX_FLAGS "-fPIC")
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+set(CMAKE_HAVE_THREADS_LIBRARY 1)
+set(CMAKE_USE_WIN32_THREADS_INIT 0)
+set(CMAKE_USE_PTHREADS_INIT 1)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_C_FLAGS "-fopenmp")
 set(LINKFLAGS "-fopenmp")
 
-
-#set(CMAKE_C_COMPILER "/opt/homebrew/opt/llvm/bin/clang")
-#set(CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++")
 set(OPENMP_LIBRARIES "/opt/homebrew/opt/libomp/lib")
 set(OPENMP_INCLUDES "/opt/homebrew/opt/libomp/include")
+set(OpenMP_omp_LIBRARY "/opt/homebrew/opt/libomp/lib/libomp.dylib")
 
-OPTION (USE_OpenMP "Use OpenMP to enable <omp.h>" ON)
-
-# Find OpenMP
-if(APPLE AND USE_OpenMP)
-        set(OpenMP_C "${CMAKE_C_COMPILER}")
-        set(OpenMP_C_FLAGS " -Wno-unused-command-line-argument")
-        set(OpenMP_C_LIB_NAMES "libomp" "libgomp" "libiomp5")
-        set(OpenMP_libomp_LIBRARY ${OpenMP_C_LIB_NAMES})
-        set(OpenMP_libgomp_LIBRARY ${OpenMP_C_LIB_NAMES})
-        set(OpenMP_libiomp5_LIBRARY ${OpenMP_C_LIB_NAMES})
+set(CMAKE_OSX_DEPLOYMENT_TARGET "15.0")
+set(OpenMP_C "${CMAKE_C_COMPILER}")
+set(OpenMP_C_FLAGS "${CMAKE_C_FLAGS} -Xpreprocessor -I/opt/homebrew/opt/libomp/include -fopenmp -Wno-unused-command-line-argument")
+set(OpenMP_C_LIB_NAMES "omp" "libomp" "libgomp" "libiomp5")
+set(OpenMP_libomp_LIBRARY ${OpenMP_C_LIB_NAMES})
+set(OpenMP_libgomp_LIBRARY ${OpenMP_C_LIB_NAMES})
+set(OpenMP_libiomp5_LIBRARY ${OpenMP_C_LIB_NAMES})
     
-      set(OpenMP_CXX "${CMAKE_CXX_COMPILER}")
-      set(OpenMP_CXX_FLAGS " -Wno-unused-command-line-argument")
-      set(OpenMP_CXX_LIB_NAMES "libomp" "libgomp" "libiomp5")
-      set(OpenMP_libomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
-      set(OpenMP_libgomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
-      set(OpenMP_libiomp5_LIBRARY ${OpenMP_CXX_LIB_NAMES})
-endif()
+set(OpenMP_CXX "${CMAKE_CXX_COMPILER}")
+set(OpenMP_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Xpreprocessor -I/opt/homebrew/opt/libomp/inlcude -Wno-unused-command-line-argument")
+set(OpenMP_CXX_LIB_NAMES "omp" "libomp" "libgomp" "libiomp5")
+set(OpenMP_libomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+set(OpenMP_libgomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+set(OpenMP_libiomp5_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/homebrew/opt/libomp/lib -lomp")
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
@@ -145,8 +151,12 @@ target_link_libraries(console_solver TexasSolver)
 #SET_SOURCE_FILES_PROPERTIES(PokerSolver.i PROPERTIES SWIG_FLAGS "")
 #SWIG_ADD_LIBRARY(PokerSolver TYPE SHARED LANGUAGE python SOURCES PokerSolver.i)
 #set_target_properties(PokerSolver PROPERTIES LIBRARY_OUTPUT_DIRECTORY ./output)
-##SWIG_ADD_MODULE(PokerSolver python PokerSolver.i ${lib_src})
+#SWIG_ADD_MODULE(PokerSolver python PokerSolver.i ${lib_src})
 #SWIG_LINK_LIBRARIES(PokerSolver TexasSolver ${PYTHON_LIBRARIES})
+
+INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/resources" DESTINATION "${PROJECT_SOURCE_DIR}/install" OPTIONAL)
+INSTALL(TARGETS console_solver DESTINATION "${PROJECT_SOURCE_DIR}/install")
+
 
 INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/resources" DESTINATION "${PROJECT_SOURCE_DIR}/install" OPTIONAL)
 INSTALL(TARGETS console_solver DESTINATION "${PROJECT_SOURCE_DIR}/install")
