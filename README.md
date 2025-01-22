@@ -6,6 +6,12 @@
 
 README [English](README.md) | [中文](README.zh-CN.md)
 
+## Buildling
+Run the command ```brew install llvm libomp libpthread-stubs```, then follow the [build guide](https://colab.research.google.com/github/bupticybee/TexasSolver/blob/master/TexasSolverTechDemo.ipynb) on google collab as usual.
+
+Note: ```libpthread-stubs``` may not actually be required for the build. You may also need to install Xcode Command Line Tools (```xcode-select --install```)
+
+
 ## Introduction 
 A open sourced, extremely efficient Texas Hold'em and short deck solver. See this [Introduction video](https://www.youtube.com/watch?v=MydczBwSfWc) for more.
 
