@@ -45,6 +45,7 @@ Dic5Compairer::Dic5Compairer(string dic_dir,int lines):Compairer(std::move(dic_d
         }
     }
     cout << endl;
+    this->cardslong2rank.rehash(this->cardslong2rank.size() * 2);
 }
 
 Compairer::CompairResult Dic5Compairer::compairRanks(int rank_former, int rank_latter) {
@@ -126,7 +127,10 @@ int Dic5Compairer::getRank(vector<int> cards) {
     {
         if(one_comb.size() != 5)throw runtime_error(fmt::format("card size incorrect: {} should be 5",one_comb.size()));
         uint64_t comb_uint64 = Card::boardInts2long(one_comb);
-        int rank = this->cardslong2rank[comb_uint64];
+        int rank;
+        auto it = this->cardslong2rank.find(comb_uint64);
+        if(it != this->cardslong2rank.end()) rank = it->second;
+        else rank = 0;
         min_rank = min(rank,min_rank);
     }
     return min_rank;

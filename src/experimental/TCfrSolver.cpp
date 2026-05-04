@@ -663,3 +663,19 @@ boost::future<T> TCfrSolver::fork(Ex& ex, F&& func) {
     });
     return ft;
 }
+
+void TCfrSolver::stop() {
+    throw runtime_error("TCfrSolver::stop not implemented");
+}
+
+json TCfrSolver::dumps(bool with_status,int depth) {
+    throw runtime_error("TCfrSolver::dumps not implemented");
+}
+
+vector<vector<vector<float>>> TCfrSolver::get_strategy(shared_ptr<ActionNode> node,vector<Card> chance_cards) {
+    throw runtime_error("TCfrSolver::get_strategy not implemented");
+}
+
+vector<vector<vector<float>>> TCfrSolver::get_evs(shared_ptr<ActionNode> node,vector<Card> chance_cards) {
+    throw runtime_error("TCfrSolver::get_evs not implemented");
+}

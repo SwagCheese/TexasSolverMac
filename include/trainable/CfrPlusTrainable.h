@@ -33,7 +33,11 @@ public:
 
     void updateRegrets(const vector<float>& regrets, int iteration_number, const vector<float>& reach_probs) override;
 
+    void setEv(const vector<float>& evs) override;
+
     json dump_strategy(bool with_state) override;
+
+    json dump_evs() override;
 
     TrainableType get_type() override;
 };

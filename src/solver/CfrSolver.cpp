@@ -11,3 +11,23 @@ CfrSolver::CfrSolver(shared_ptr<GameTree> tree, vector<PrivateCards> range1, vec
 
 }
 
+void CfrSolver::train() {
+    throw runtime_error("CfrSolver::train not implemented");
+}
+
+void CfrSolver::stop() {
+    throw runtime_error("CfrSolver::stop not implemented");
+}
+
+json CfrSolver::dumps(bool with_status,int depth) {
+    throw runtime_error("CfrSolver::dumps not implemented");
+}
+
+vector<vector<vector<float>>> CfrSolver::get_strategy(shared_ptr<ActionNode> node,vector<Card> chance_cards) {
+    throw runtime_error("CfrSolver::get_strategy not implemented");
+}
+
+vector<vector<vector<float>>> CfrSolver::get_evs(shared_ptr<ActionNode> node,vector<Card> chance_cards) {
+    throw runtime_error("CfrSolver::get_evs not implemented");
+}
+

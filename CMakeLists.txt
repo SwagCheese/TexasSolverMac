@@ -36,7 +36,7 @@ set(OpenMP_libgomp_LIBRARY ${OpenMP_C_LIB_NAMES})
 set(OpenMP_libiomp5_LIBRARY ${OpenMP_C_LIB_NAMES})
     
 set(OpenMP_CXX "${CMAKE_CXX_COMPILER}")
-set(OpenMP_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Xpreprocessor -I/opt/homebrew/opt/libomp/inlcude -Wno-unused-command-line-argument")
+set(OpenMP_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Xpreprocessor -I/opt/homebrew/opt/libomp/include -Wno-unused-command-line-argument")
 set(OpenMP_CXX_LIB_NAMES "omp" "libomp" "libgomp" "libiomp5")
 set(OpenMP_libomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
 set(OpenMP_libgomp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
@@ -109,9 +109,9 @@ add_subdirectory(ext/googletest/googletest)
 include_directories(ext/fmt/include ext/fmt)
 add_subdirectory(ext/fmt/)
 
-# ppybind11
-include_directories(ext/pybind11/include)
-add_subdirectory(ext/pybind11)
+# ppybind11 - disabled (not needed for console_solver)
+#include_directories(ext/pybind11/include)
+#add_subdirectory(ext/pybind11)
 
 include_directories(include)
 include_directories("${OPENMP_INCLUDES}")
