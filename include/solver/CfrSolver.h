@@ -29,6 +29,10 @@ public:
             Solver::MonteCarolAlg monteCarolAlg
     );
     void train() override;
+    void stop() override;
+    json dumps(bool with_status,int depth) override;
+    vector<vector<vector<float>>> get_strategy(shared_ptr<ActionNode> node,vector<Card> chance_cards) override;
+    vector<vector<vector<float>>> get_evs(shared_ptr<ActionNode> node,vector<Card> chance_cards) override;
 private:
     vector<vector<PrivateCards>> ranges;
     vector<PrivateCards> range1;

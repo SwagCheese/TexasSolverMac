@@ -91,7 +91,10 @@ public:
             int num_threads
     );
     void train() override;
-    json dumps(bool with_status,int depth);
+    void stop() override;
+    json dumps(bool with_status,int depth) override;
+    vector<vector<vector<float>>> get_strategy(shared_ptr<ActionNode> node,vector<Card> chance_cards) override;
+    vector<vector<vector<float>>> get_evs(shared_ptr<ActionNode> node,vector<Card> chance_cards) override;
 private:
     vector<vector<PrivateCards>> ranges;
     vector<PrivateCards> range1;
@@ -100,6 +103,8 @@ private:
     uint64_t initial_board_long;
     shared_ptr<Compairer> compairer;
     int color_iso_offset[52 * 52 * 2][4] = {0};
+    bool collecting_statics = false;
+    bool statics_collected = false;
 
     Deck deck;
     RiverRangeManager rrm;
@@ -119,6 +124,8 @@ private:
     bool distributing_task;
     float accuracy;
     bool use_isomorphism;
+    int use_halffloats;
+    bool nowstop = false;
 
     const vector<PrivateCards>& playerHands(int player);
     vector<vector<float>> getReachProbs();

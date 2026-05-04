@@ -85,6 +85,10 @@ const vector<float> CfrPlusTrainable::getcurrentStrategy() {
     return retval;
 }
 
+void CfrPlusTrainable::setEv(const vector<float>& evs){
+    throw runtime_error("setEv not implemented for CfrPlusTrainable");
+}
+
 void CfrPlusTrainable::updateRegrets(const vector<float>& regrets, int iteration_number, const vector<float>& reach_probs) {
     this->regrets = regrets;
     if(regrets.size() != this->action_number * this->card_number) throw runtime_error("length not match");
@@ -148,6 +152,10 @@ json CfrPlusTrainable::dump_strategy(bool with_state) {
     retjson["actions"] = actions_str;
     retjson["strategy"] = strategy;
     return retjson;
+}
+
+json CfrPlusTrainable::dump_evs() {
+    throw runtime_error("dump_evs not implemented for CfrPlusTrainable");
 }
 
 Trainable::TrainableType CfrPlusTrainable::get_type() {
